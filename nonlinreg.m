@@ -1,3 +1,5 @@
+function [a b c d] = nonlinreg(flux)
+
 clear all
 tf=2*pi;
 t=0:tf/100:tf;
