@@ -15,6 +15,8 @@ j=1;
 %end
 %end
 
+%hi
+
 for i = 1:length(x)
     if(y(i)^2 + z(i)^2)^0.5 > r1  %finds points between r1 and r2
         X1(j) = x(i);
