@@ -1,20 +1,29 @@
 function [] = main_func(filename)
     % placeholder variables    
     theta = 0;
-    rmin = 0;
-    rmax = 1000;
-    zmax = 1000;
+    rmin = .02145;
+    rmax = .0226;
+    zmax = 5;
+    numpoles = 8;
+    rpms = 2300;
     % import data from file
-    DATA = importdata(filename,',',1);
-    % select the points we need
-    [x, y, z, vx, vy, vz] = selectPoints(DATA(1),Data(2),DATA(3),DATA(4),DATA(5),DATA(6),1,2,5);
+    fileID=fopen(filename);
+    DATA = textscan(fileID,'%f %f %f %f %f %f','Delimiter',',');
+    fclose(fileID);
+    % select the points we need, if the bounds are set correctly we should
+    % never get NaN in our final vectors
+    
+    [x, y, z, vx, vy, vz] = selectPoints(DATA{1},DATA{2},DATA{3},DATA{4},DATA{5},DATA{6},rmin,rmax,zmax);
     % next steps:
+    %Convert to cylindrical coordinates
+    [r theta z]=toCylind(x,y,z); 
     % magdir
     magVal = magDir(x,y,z,vx,vy,vz);
     % calc_flux
     [flux, Theta] = calc_flux(theta,rmin,rmax,zmax,magVal);
     % nonlinreg
-    
+    [a b c d] = nonlinreg(flux) % subject to change
     % flux_vals
-    [A omega emf V] = flux_vals(flux, 
+    [A omega emf V] = flux_vals(flux, numpoles, Theta, rpms)
+    % do something with this
 end
