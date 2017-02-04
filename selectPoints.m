@@ -16,7 +16,7 @@ j=1;
 %end
 
 %hi
-
+X1 = [];
 for i = 1:length(x)
     if(y(i)^2 + z(i)^2)^0.5 > r1  %finds points between r1 and r2
         X1(j) = x(i);
@@ -29,8 +29,9 @@ for i = 1:length(x)
     end
 end
 j = 1;
+X2 = [];
 for i=1:length(X1)
-    if (y(i)^2 + z(i)^2)^0.5 < r2
+    if (Y1(i)^2 + Z1(i)^2)^0.5 < r2
         
         X2(j) = X1(i);
         Y2(j) = Y1(i);
@@ -42,8 +43,15 @@ for i=1:length(X1)
     end
 end
 j = 1;
+
+X = [];
+Y = [];
+Z = [];
+Vx = [];
+Vy = [];
+Vz = [];
 for i=1:length(X2)
-    if abs(X2(i))<xmax %finds points in our x range
+    if abs(X2(i))<xmax && ~isnan(Vx2(i)) %finds points in our x range
          X(j) = X2(i);
         Y(j) = Y2(i);
         Z(j) = Z2(i);
