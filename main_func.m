@@ -1,9 +1,9 @@
 function [A omega V] = main_func(filename)
     % placeholder variables    
     theta = 0;
-    rmin = .02145;
-    rmax = .0226;
-    zmax = 5;
+    rmin = 96.86 ; %mm
+    rmax = 116.2;
+    zmax = 26.725;
     numpoles = 8;
     rpms = 2300;
     % import data from file
@@ -25,6 +25,11 @@ function [A omega V] = main_func(filename)
     %[a b c d] = nonlinreg(flux) % hopefully will replace flux_vals
     %someday, better, quantifies error, but really difficult 
     % flux_vals
-    [A omega emf V] = flux_vals(flux, numpoles, Theta, rpms);
+    for i = 1:23
+        rpms = 100*i;
+      [A(i) omega(i) emf V(i)] = flux_vals(flux, numpoles, Theta, rpms);  
+    end
+    
+    
     % do something with this
 end
