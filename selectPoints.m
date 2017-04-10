@@ -1,21 +1,11 @@
 function [X Y Z Vx Vy Vz] = selectPoints(x, y, z, vx, vy, vz, r1, r2, xmax)
-j=1;
-%for i = 1:length(x)
-%    if((y(i)^2 + z(i)^2)^0.5 > r1 &&  (y(i)^2 + z(i)^2)^0.5 < r2)
- %       
-  %      if(x(i) > xmin && x(i) < xmax)
-   %     X[j] = x[j];
-    %   Y[j] = y[i];
-     %   VY[j] = vy[j];
-      %  Z[j] = z[i];
-       % VZ[j] = vz[j];
-        %end
-   % end
-    %j = j + 1;
-%end
-%end
+%this function selects all of the vectors within the B field, within the stator. 
+%The stator is assumed to take the shape of a cylindrical shell with an inner and outer radius.  
 
-%hi
+j=1;
+
+%This selects all of the points that are outside of the inner radius of the
+%shell
 X1 = [];
 for i = 1:length(x)
     if(y(i)^2 + z(i)^2)^0.5 > r1  %finds points between r1 and r2
@@ -28,6 +18,10 @@ for i = 1:length(x)
         j=j+1;
     end
 end
+
+
+%This selects all of the points that are within the outer radius of the
+%shell, the remaining points are now between the inner and outer radii
 j = 1;
 X2 = [];
 for i=1:length(X1)
@@ -50,8 +44,11 @@ Z = [];
 Vx = [];
 Vy = [];
 Vz = [];
+
+%finds points within our x range and removes any NaN values we may have
+%within these points
 for i=1:length(X2)
-    if abs(X2(i))<xmax && ~isnan(Vx2(i)) %finds points in our x range
+    if abs(X2(i))<xmax && ~isnan(Vx2(i)) 
          X(j) = X2(i);
         Y(j) = Y2(i);
         Z(j) = Z2(i);
@@ -60,4 +57,7 @@ for i=1:length(X2)
         Vz(j)=Vz2(i);
         j=j+1;
     end
+    
+    %By this points all of the remaining points are within the cylindrical
+    %shell that represents the stators
 end
