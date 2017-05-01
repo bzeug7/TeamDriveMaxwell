@@ -16,10 +16,11 @@ function [A omega V] = main_func(filename)
     fclose(fileID);
   
     
-    [x, y, z, vx, vy, vz] = selectPoints(DATA{1},DATA{2},DATA{3},DATA{4},DATA{5},DATA{6},rmin,rmax,zmax);
+    [x, y, z, vx, vy, vz] = selectPoints(DATA{1},DATA{3},DATA{2},DATA{4},DATA{5},DATA{6},rmin,rmax,zmax);
     % This selects the points we within the stator
     
-    
+    figure;
+    scatter3(x,y,z,0.005)
     [r, theta, z]=toCylind(x,y,z); 
     %Converts to cylindrical coordinates
     

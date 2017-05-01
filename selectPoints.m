@@ -6,6 +6,8 @@ j=1;
 
 %This selects all of the points that are outside of the inner radius of the
 %shell
+figure;
+scatter(x,y)
 X1 = [];
 for i = 1:length(x)
     if(x(i)^2 + y(i)^2)^0.5 > r1  %finds points between r1 and r2
@@ -23,6 +25,8 @@ end
 %This selects all of the points that are within the outer radius of the
 %shell, the remaining points are now between the inner and outer radii
 j = 1;
+figure;
+scatter(X1, Y1)
 X2 = [];
 for i=1:length(X1)
     if (X1(i)^2 + Y1(i)^2)^0.5 < r2
@@ -47,6 +51,8 @@ Vz = [];
 
 %finds points within our x range and removes any NaN values we may have
 %within these points
+figure;
+scatter(X2,Y2)
 for i=1:length(X2)
     if abs(Z2(i))<xmax && ~isnan(Vx2(i)) 
          X(j) = X2(i);

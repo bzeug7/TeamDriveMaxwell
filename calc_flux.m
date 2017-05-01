@@ -6,7 +6,7 @@ dtheta=.1;
 Theta=0:dtheta:2*pi;
 
 k=1; 
-for j=1:length(Theta)
+for j=1:length(Theta)-1
     magfield = 0;
     for i=1:length(theta)
         k = 1;
