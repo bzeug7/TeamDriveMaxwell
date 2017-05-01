@@ -3,16 +3,16 @@ function [A omega V] = main_func(filename)
 
     % known variables    
     theta = 0;
-    rmin = 0.09686 ;  %mm
-    rmax = 0.1162;   %mm
-    zmax = 0.026725;  %mm
-    numpoles = 8;   %number of poles in alternator
+    rmin = 0.0482;  %m
+    rmax = 0.05875;   %m
+    zmax = 0.026725;  %m
+    numpoles = 4;   %number of poles in alternator
    
     
     
     % import data from file
     fileID=fopen(filename);
-    DATA = textscan(fileID,'%f %f %f %f %f %f','Delimiter',' ', 'TreatAsEmpty', {'NaN'}, 'EmptyValue', 0);
+    DATA = textscan(fileID,'%f %f %f %f %f %f %*[^\n]','Delimiter',' ', 'MultipleDelimsAsOne', 1);
     fclose(fileID);
   
     
