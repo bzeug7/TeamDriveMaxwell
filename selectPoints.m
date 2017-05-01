@@ -8,7 +8,7 @@ j=1;
 %shell
 X1 = [];
 for i = 1:length(x)
-    if(y(i)^2 + z(i)^2)^0.5 > r1  %finds points between r1 and r2
+    if(x(i)^2 + y(i)^2)^0.5 > r1  %finds points between r1 and r2
         X1(j) = x(i);
         Y1(j) = y(i);
         Z1(j) = z(i);
@@ -25,7 +25,7 @@ end
 j = 1;
 X2 = [];
 for i=1:length(X1)
-    if (Y1(i)^2 + Z1(i)^2)^0.5 < r2
+    if (X1(i)^2 + Y1(i)^2)^0.5 < r2
         
         X2(j) = X1(i);
         Y2(j) = Y1(i);
@@ -48,7 +48,7 @@ Vz = [];
 %finds points within our x range and removes any NaN values we may have
 %within these points
 for i=1:length(X2)
-    if abs(X2(i))<xmax && ~isnan(Vx2(i)) 
+    if abs(Z2(i))<xmax && ~isnan(Vx2(i)) 
          X(j) = X2(i);
         Y(j) = Y2(i);
         Z(j) = Z2(i);
