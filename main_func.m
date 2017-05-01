@@ -45,5 +45,6 @@ function [A omega V] = main_func(filename)
     %and determine the amplitude, voltage and frequency based on the fitted
     %equation    
     
-    
+    pause;
+    close all;
 end

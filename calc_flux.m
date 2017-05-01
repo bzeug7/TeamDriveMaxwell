@@ -4,7 +4,8 @@ function [flux, Theta] = calc_flux(theta, rmin, rmax, zmax, magB)
 %represents the stator into segments (or really slices) based on angle.
 dtheta=.1;
 Theta=0:dtheta:2*pi;
-
+flux = zeros(size(Theta));
+r = ones(size(Theta));
 k=1; 
 for j=1:length(Theta)-1
     magfield = 0;
@@ -24,10 +25,11 @@ for j=1:length(Theta)-1
     %end
     vol=(rmax^2-rmin^2).*dtheta.*zmax;  %This is the volume of each segment
     flux(j)=magfield/vol;
-   
     %Flux is determined to taking the sum of the magnitudes of the vectors
     %normal to the stator in each segment and dividing it by the volume of the segment.
     
-    
-   
+    %why do we divide by volume? Wikipedia:  Thus, the SI base units of electric flux are kg·m3·s?3·A?1
 end
+figure;
+[x y] = pol2cart(Theta, r);
+scatter3(x, y, flux);
