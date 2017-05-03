@@ -23,8 +23,9 @@ for j=1:length(Theta)-1
     %for k=1:length(Angle)
     %    magfield=sum(Angle(k));
     %end
-    vol=(rmax^2-rmin^2).*dtheta.*zmax;  %This is the volume of each segment
-    flux(j)=magfield/vol;
+    %vol=(rmax^2-rmin^2).*dtheta.*zmax;  %This is the volume of each segment
+    area = 2*rmin*dtheta*zmax;
+    flux(j)=magfield*area;
     %Flux is determined to taking the sum of the magnitudes of the vectors
     %normal to the stator in each segment and dividing it by the volume of the segment.
     
