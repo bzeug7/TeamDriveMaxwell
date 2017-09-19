@@ -1,12 +1,10 @@
-function [A omega V] = main_func(filename)
+function [A omega V] = main_func(filename, numpoles, dtheta)
 
 
     % known variables    
-    theta = 0;
     rmin = 0.0482;  %m
     rmax = 0.05875;   %m
     zmax = 0.026725;  %m
-    numpoles = 4;   %number of poles in alternator
    
     
     
@@ -16,7 +14,7 @@ function [A omega V] = main_func(filename)
     fclose(fileID);
   
     
-    [x, y, z, vx, vy, vz] = selectPoints(DATA{1},DATA{3},DATA{2},DATA{4},DATA{5},DATA{6},rmin,rmax,zmax);
+    [x, y, z, vx, vy, vz] = selectPoints(DATA{1},DATA{3},DATA{2},DATA{4},DATA{6},DATA{5},rmin,rmax,zmax);
     % This selects the points we within the stator
     
     figure;
@@ -29,14 +27,14 @@ function [A omega V] = main_func(filename)
     % this will be normal to the stator coils
     
     
-    [flux, Theta] = calc_flux(theta,rmin,rmax,zmax,magVal);
+    [flux, Theta] = calc_flux(theta,rmin,rmax,zmax,magVal, dtheta);
     % Divides stator into segments base on angle and calculates the flux in
     % each segment, this will make flux a function of theta.  
     
     
     
     for i = 1:23
-        rpms = 100*i;
+       rpms = 100*i;
       [A(i) omega(i) emf V(i)] = flux_vals(flux, numpoles, Theta, rpms);  
     end
     
@@ -47,4 +45,15 @@ function [A omega V] = main_func(filename)
     
     pause;
     close all;
+    
+    A = A(:);
+    omega = omega(:);
+    V = V(:);
+    
+    filenameNoSuffix = strsplit(filename, '.');
+    fileOutput = strcat(filenameNoSuffix, '_out.csv');
+    fileOutputChar = char(fileOutput);
+    fileId = fopen(fileOutputChar, 'w');
+    fprintf(fileId, '%6s,%6s,%6s','V','A','omega');
+    fprintf(fildId, '%1.6e,%1.6e,%1.6e', V, A, omega);
 end

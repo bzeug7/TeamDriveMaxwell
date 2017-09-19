@@ -1,8 +1,7 @@
-function [flux, Theta] = calc_flux(theta, rmin, rmax, zmax, magB)
+function [flux, Theta] = calc_flux(theta, rmin, rmax, zmax, magB, dtheta)
 
 %The first part of this function divides the cylindrical shell that
 %represents the stator into segments (or really slices) based on angle.
-dtheta=.1;
 Theta=0:dtheta:2*pi;
 flux = zeros(size(Theta));
 r = ones(size(Theta));
@@ -34,3 +33,5 @@ end
 figure;
 [x y] = pol2cart(Theta, r);
 scatter3(x, y, flux);
+figure;
+scatter(Theta, flux);
