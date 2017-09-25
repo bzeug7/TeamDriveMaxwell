@@ -35,3 +35,5 @@ figure;
 scatter3(x, y, flux);
 figure;
 scatter(Theta, flux);
+figure
+plot(Theta, flux)
