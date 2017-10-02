@@ -80,6 +80,7 @@ function [A omega V] = main_func(filename, numpoles, dtheta)
     
     for i = 1:23
        rpms = 100*i;
+       [A C]=nonlinreg(flux, numpoles, Theta, rpms)
       [A(i) omega(i) emf V(i)] = flux_vals(flux, numpoles, Theta, rpms);  
     end
     
@@ -95,8 +96,10 @@ function [A omega V] = main_func(filename, numpoles, dtheta)
     omega = omega(:);
     V = V(:);
     
+
     fileOutput = strcat(name, '_out.csv');
     fileId = fopen(fileOutput, 'w');
     fprintf(fileId, '%6s,%12s,%12s\n','V','A','omega');
     fprintf(fileId, '%1.6e,%1.6e,%1.6e\n', V, A, omega);
+
 end
