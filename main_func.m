@@ -1,8 +1,7 @@
 function [A omega V] = main_func(filename, numpoles, dtheta)
-%% TODO
-% file output of data
-% plot and save flux vs. theta as plot, not scatter
-
+%% To run this program
+% command: [A omega V] = main_func('exp1_4pole_9.fld', 4, .05)
+% must ensure that fld file only contains field data, no headers
 
     % known variables    
     rmin = 0.0482;  %m
