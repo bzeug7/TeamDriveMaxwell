@@ -1,5 +1,8 @@
 function [A omega V] = main_func(filename, numpoles, dtheta)
-
+%% To run this program
+% Save the input fld in a sub-folder named 'Input'
+% command: [A omega V] = main_func('exp1_4pole_9.fld', 4, .05)
+% must ensure that fld file only contains field data, no headers
 
     % known variables    
     rmin = 0.0482;  %m
@@ -9,16 +12,32 @@ function [A omega V] = main_func(filename, numpoles, dtheta)
     
     
     % import data from file
-    fileID=fopen(filename);
+    filenameIn = strcat('Input/', filename);
+    fileID=fopen(filenameIn);
     DATA = textscan(fileID,'%f %f %f %f %f %f %*[^\n]','Delimiter',' ', 'MultipleDelimsAsOne', 1);
     fclose(fileID);
   
     
-    [x, y, z, vx, vy, vz] = selectPoints(DATA{1},DATA{3},DATA{2},DATA{4},DATA{6},DATA{5},rmin,rmax,zmax);
+    [x, y, z, vx, vy, vz] = selectPoints(DATA{1},DATA{2},DATA{3},DATA{4},DATA{5},DATA{6},rmin,rmax,zmax);
     % This selects the points we within the stator
+    filenameNoSuffix = strsplit(filename, '.');
+    name = char(filenameNoSuffix(1));
+    
+    selectPoints2DName = strcat('Images/', name, '_selectPoints2D');
+    title('Selected Points')
+    xlabel('x(meters)')
+    ylabel('y(meters)')
+    print(selectPoints2DName,'-dpng')
     
     figure;
     scatter3(x,y,z,0.005)
+    title('Selected Points')
+    xlabel('x(meters)')
+    ylabel('y(meters)')
+    zlabel('z(meters)')
+    selectPoints3DName = strcat('Images/', name, '_selectPoints3D');
+    print(selectPoints3DName,'-dpng')
+    
     [r, theta, z]=toCylind(x,y,z); 
     %Converts to cylindrical coordinates
     
@@ -30,8 +49,29 @@ function [A omega V] = main_func(filename, numpoles, dtheta)
     [flux, Theta] = calc_flux(theta,rmin,rmax,zmax,magVal, dtheta);
     % Divides stator into segments base on angle and calculates the flux in
     % each segment, this will make flux a function of theta.  
+    figure;
+    rout = ones(size(Theta));
+    [x y] = pol2cart(Theta, rout);
+    scatter3(x, y, flux, 15, 'filled');
+    title('Flux Output')
+    xlabel('x(meters)')
+    ylabel('y(meters)')
+    zlabel('flux')
     
+    fluxCartesianName = strcat('Images/', name, '_fluxCartesian');
+    print(fluxCartesianName, '-dpng');    
     
+    fluxThetaName = strcat('Images/', name, '_fluxTheta');
+    print(fluxThetaName, '-dpng');
+    
+    figure;
+    plot(Theta, flux);
+    title('Flux vs. Theta')
+    xlabel('theta')
+    ylabel('flux')
+    
+    fluxThetaLineName = strcat('Images/', name, '_fluxThetaLine');
+    print(fluxThetaLineName, '-dpng');
     
     for i = 1:23
        rpms = 100*i;
@@ -45,15 +85,17 @@ function [A omega V] = main_func(filename, numpoles, dtheta)
     
     pause;
     close all;
+    Power = A .* V;
+    output = [V; A; omega; Power];
     
     A = A(:);
     omega = omega(:);
     V = V(:);
     
-    filenameNoSuffix = strsplit(filename, '.');
-    fileOutput = strcat(filenameNoSuffix, '_out.csv');
-    fileOutputChar = char(fileOutput);
-    fileId = fopen(fileOutputChar, 'w');
-    fprintf(fileId, '%6s,%6s,%6s','V','A','omega');
-    fprintf(fildId, '%1.6e,%1.6e,%1.6e', V, A, omega);
+    fileOutput = strcat('Output/', name, '_out.csv');
+    fileId = fopen(fileOutput, 'w');
+    fprintf(fileId, '%6s\n', name);
+    fprintf(fileId, '%6s,%12s,%12s,%12s\n','V','A','omega','Power');
+    fprintf(fileId, '%1.6e,%1.6e,%1.6e,%1.6e\n', output);
+
 end
