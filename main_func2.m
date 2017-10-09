@@ -6,7 +6,7 @@ function [A omega V] = main_func2(filename)
     rmin = 0.0482;  %m
     rmax = 0.05875;   %m
     zmax = 0.026725;  %m
-    numpoles = 4;   %number of poles in alternator
+    numpoles = 8;   %number of poles in alternator
    
     
     
