@@ -18,7 +18,7 @@ function [A omega V] = main_func(filename, numpoles, dtheta)
     fclose(fileID);
   
     
-    [x, y, z, vx, vy, vz] = selectPoints(DATA{1},DATA{2},DATA{3},DATA{4},DATA{5},DATA{6},rmin,rmax,zmax);
+    [x, y, z, vx, vy, vz] = selectPoints(DATA{1},DATA{3},DATA{2},DATA{4},DATA{6},DATA{5},rmin,rmax,zmax);
     % This selects the points we within the stator
     filenameNoSuffix = strsplit(filename, '.');
     name = char(filenameNoSuffix(1));
@@ -60,6 +60,12 @@ function [A omega V] = main_func(filename, numpoles, dtheta)
     
     fluxCartesianName = strcat('Images/', name, '_fluxCartesian');
     print(fluxCartesianName, '-dpng');    
+    
+    figure;
+    scatter(Theta, flux, 15, 'filled');
+    title('Flux vs. Theta')
+    xlabel('theta')
+    ylabel('flux')
     
     fluxThetaName = strcat('Images/', name, '_fluxTheta');
     print(fluxThetaName, '-dpng');
